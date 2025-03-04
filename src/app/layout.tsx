@@ -1,9 +1,14 @@
 import "src/styles/globals.css";
 import { Geist, Geist_Mono } from "next/font/google";
-import { SessionContextProvider } from "./providers";
-let title = "Next.js + Postgres Auth Starter";
-let description =
-  "This is a Next.js starter kit that uses NextAuth.js for simple email + password login and a Postgres database to persist the data.";
+import {
+  IsMarriedProvider,
+  SessionContextProvider,
+  ThemeProvider,
+} from "./providers";
+import Link from "next/link";
+let title = "Slicing Exercise";
+let description = "Slicing exercise";
+import { Toaster } from "@/components/ui/sonner";
 
 export const metadata = {
   title,
@@ -32,14 +37,27 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <SessionContextProvider>
-          <div className="flex h-screen bg-gradient-to-r from-slate-300 to-slate-500">
-            {children}
-          </div>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <IsMarriedProvider>
+              <main className="flex min-h-screen w-full md:w-screen h-full bg-gradient-to-r from-slate-300 to-slate-500 text-gray-950">
+                <Link href="/" className="fixed border px-8 py-2 left-4 top-2">
+                  LOGO
+                </Link>
+                {children}
+                <Toaster />
+              </main>
+            </IsMarriedProvider>
+          </ThemeProvider>
         </SessionContextProvider>
       </body>
     </html>
